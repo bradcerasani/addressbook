@@ -1,10 +1,17 @@
 var myApp = angular.module('Katz',[]);
 
-// http://now.winnipeg.ca/conStruct/export/?format=json&dataset=http%3A%2F%2Fnow.winnipeg.ca%2Fdatasets%2FProperty_addresses%2F--Property_Addresses&slicesize=500&slice=1
+var url = "http://now.winnipeg.ca/conStruct/export/?format=json&dataset=http%3A%2F%2Fnow.winnipeg.ca%2Fdatasets%2FProperty_addresses%2F--Property_Addresses&slicesize=500&slice=1";
+var sampleResponse = "sample-response.json";
 
 myApp.service('dataService', function($http) {
+  $http.defaults.useXDomain = true;
+  $http.defaults.withCredentials = true;
+  delete $http.defaults.headers.common["X-Requested-With"];
+  $http.defaults.headers.common["Accept"] = "application/json";
+  $http.defaults.headers.common["Content-Type"] = "application/json";
+
   this.getData = function(callbackFunc) {
-    $http.get('sample-response.json').success(function(data) {
+    $http.get(url).success(function(data) {
       var arr = data.resultset.subject;
       var addresses = [];
 
